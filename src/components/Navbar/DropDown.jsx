@@ -4,7 +4,7 @@ import{motion} from "framer-motion"
 
 const DropDown = () => {
   return (
-    <div className="flex flex-col justify-center items-center sm:hidden font-spacegrotesk absolute top-16 right-2 bg-primaryColor w-40 h-fit rounded-lg py-6">
+    <div className="flex flex-col justify-center items-center sm:hidden font-spacegrotesk absolute top-16 right-2 bg-primaryColor w-40 h-fit rounded-lg py-6 z-10">
       <ul className="list-none space-y-2">
         <motion.li whileHover={{color: "white"}} className="text-md border-l-4 border-transparent duration-300 text-textColor pl-2">
           <NavLink

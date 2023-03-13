@@ -1,16 +1,27 @@
 import React, { Fragment } from "react";
+import { motion } from "framer-motion";
 
-type InputProps = {
-  setCity: React.Dispatch<React.SetStateAction<string>>;
+const animator = {
+  hidden: {
+    opacity: 0,
+    x: -30,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7 },
+  },
 };
 
-const Input = ({ setCity }: InputProps) => {
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setCity(event.target.value);
+const Input = ({ setCity }) => {
+  const handleChange = (event) => setCity(event.target.value);
 
   return (
     <Fragment>
-      <input
+      <motion.input
+        variants={animator}
+        initial="hidden"
+        animate="visible"
         type="text"
         placeholder="-- Enter a City --"
         onChange={handleChange}

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import moment from "moment";
 
 import { get5DayForecast } from "../../api";
-import type { FiveDayForecast } from "../../api/types";
 
 import FiveDayCard from "../Cards/FiveDayCard";
 import Button from "../Buttons/Button";
@@ -12,12 +12,13 @@ import HeadingText from "../Texts/HeadingText";
 import HeadlineText from "../Texts/HeadlineText";
 
 const FiveDayForeCast = () => {
-  const [fiveDayForecast, setFiveDayForecast] = useState<FiveDayForecast>({
+  const [fiveDayForecast, setFiveDayForecast] = useState({
     headline: "",
     forecasts: [],
   });
-  const [error, setError] = useState<string | null>("");
+  const [error, setError] = useState("");
   const [city, setCity] = useState("");
+  const [render, setRender] = useState(0);
 
   const clickHandler = async () => {
     setError(null);
@@ -26,7 +27,8 @@ const FiveDayForeCast = () => {
       const { forecasts, headline } = await get5DayForecast(city);
 
       setFiveDayForecast({ forecasts, headline });
-    } catch (error: any) {
+      setRender(render + 6);
+    } catch (error) {
       setError(error.message);
     }
   };
@@ -44,19 +46,21 @@ const FiveDayForeCast = () => {
       )}
       {fiveDayForecast.forecasts.length > 0 &&
         fiveDayForecast.forecasts.map((forecast, dayFromToday) => (
-          <FiveDayCard
-            key={dayFromToday}
-            maximumTemperature={forecast.maximumTemperature}
-            minimumTemperature={forecast.minimumTemperature}
-            precipitationProbabilityDay={forecast.precipitationProbabilityDay}
-            precipitationProbabilityNight={
-              forecast.precipitationProbabilityNight
-            }
-            airQuality={forecast.airQuality}
-            uvIndex={forecast.uvIndex}
-            date={moment().add(dayFromToday, "day").format("DD-MMM-YY")}
-            dayOfWeek={moment().add(dayFromToday, "days").format("ddd")}
-          />
+          <AnimatePresence key={`fivedays-${render}`}>
+            <FiveDayCard
+              key={dayFromToday}
+              maximumTemperature={forecast.maximumTemperature}
+              minimumTemperature={forecast.minimumTemperature}
+              precipitationProbabilityDay={forecast.precipitationProbabilityDay}
+              precipitationProbabilityNight={
+                forecast.precipitationProbabilityNight
+              }
+              airQuality={forecast.airQuality}
+              uvIndex={forecast.uvIndex}
+              date={moment().add(dayFromToday, "day").format("DD-MMM-YY")}
+              dayOfWeek={moment().add(dayFromToday, "days").format("ddd")}
+            />
+          </AnimatePresence>
         ))}
       {error && <ErrorText />}
     </div>

@@ -1,10 +1,6 @@
 import React, { Fragment } from "react";
 
-type NavButtonProps = {
-  text: string;
-};
-
-const NavButton = ({ text }: NavButtonProps) => {
+const NavButton = ({ text }) => {
   return (
     <Fragment>
       <button className="hidden sm:flex font-spacegrotesk text-textColor font-medium text-md px-2 py-2 rounded-md">

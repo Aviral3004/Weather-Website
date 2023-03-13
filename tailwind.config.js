@@ -6,12 +6,13 @@ module.exports = {
       fontFamily: { spacegrotesk: ["Space Grotesk", "sans-serif"] },
       flexGrow: { 2: "2", 3: "3", 4: "4", 5: "5" },
       colors: {
-        backgroundColor: "#004369",
-        primaryColor: "#01949a",
-        secondaryColor: "#db1f48",
-        textColor: "#e5dd68",
+        backgroundColor: "#FDFDFD",
+        primaryColor: "#ADB3BC",
+        secondaryColor: "#D8D7D5",
+        textColor: "#050606",
       },
     },
   },
   plugins: [],
 };
+

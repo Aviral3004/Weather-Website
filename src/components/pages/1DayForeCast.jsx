@@ -1,16 +1,15 @@
 import React, { useState, Fragment } from "react";
 
 import { get1DayForecast } from "../../api";
-import type { OneDayForecast } from "../../api/types";
+import { AnimatePresence } from "framer-motion";
 
 import ErrorText from "../Texts/ErrorText";
 import Button from "../Buttons/Button";
 import Input from "../Inputs/Input";
 import HeadingText from "../Texts/HeadingText";
 import OneDayCard from "../Cards/OneDayCard";
-
 const OneDayForeCast = () => {
-  const [oneDayForecast, setOneDayForecast] = useState<OneDayForecast>({
+  const [oneDayForecast, setOneDayForecast] = useState({
     aboutWeather: "",
     temperature: undefined,
     realFeelTemperature: undefined,
@@ -21,7 +20,8 @@ const OneDayForeCast = () => {
     hoursOfSun: undefined,
   });
   const [city, setCity] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
+  const [key, setKey] = useState(0);
 
   const clickHandler = async () => {
     setError(null);
@@ -48,7 +48,8 @@ const OneDayForeCast = () => {
         uvIndex,
         hoursOfSun,
       });
-    } catch (error: any) {
+      setKey(key + 1);
+    } catch (error) {
       setError(error.message);
     }
   };
@@ -60,28 +61,30 @@ const OneDayForeCast = () => {
       <Button buttonTitle="Get One Day Forecast" onClick={clickHandler} />
       {oneDayForecast.aboutWeather.length > 0 && (
         <Fragment>
-          <OneDayCard
-            time="day"
-            aboutWeather={oneDayForecast.aboutWeather}
-            hoursOfSun={oneDayForecast.hoursOfSun}
-            precipitationProbability={
-              oneDayForecast.precipitationProbability?.day
-            }
-            realFeelTemperature={oneDayForecast.realFeelTemperature?.day}
-            realFeelTemperatureShade={oneDayForecast.realFeelTemperatureShade}
-            temperature={oneDayForecast.temperature?.day}
-            uvIndex={oneDayForecast.uvIndex}
-            windGust={oneDayForecast.windGust?.day}
-          />
-          <OneDayCard
-            time="night"
-            precipitationProbability={
-              oneDayForecast.precipitationProbability?.night
-            }
-            realFeelTemperature={oneDayForecast.realFeelTemperature?.night}
-            temperature={oneDayForecast.temperature?.night}
-            windGust={oneDayForecast.windGust?.night}
-          />
+          <AnimatePresence key={key}>
+            <OneDayCard
+              time="day"
+              aboutWeather={oneDayForecast.aboutWeather}
+              hoursOfSun={oneDayForecast.hoursOfSun}
+              precipitationProbability={
+                oneDayForecast.precipitationProbability?.day
+              }
+              realFeelTemperature={oneDayForecast.realFeelTemperature?.day}
+              realFeelTemperatureShade={oneDayForecast.realFeelTemperatureShade}
+              temperature={oneDayForecast.temperature?.day}
+              uvIndex={oneDayForecast.uvIndex}
+              windGust={oneDayForecast.windGust?.day}
+            />
+            <OneDayCard
+              time="night"
+              precipitationProbability={
+                oneDayForecast.precipitationProbability?.night
+              }
+              realFeelTemperature={oneDayForecast.realFeelTemperature?.night}
+              temperature={oneDayForecast.temperature?.night}
+              windGust={oneDayForecast.windGust?.night}
+            />
+          </AnimatePresence>
         </Fragment>
       )}
       {error && <ErrorText />}

@@ -36,6 +36,18 @@ const DropDown = () => {
             Current Forecast
           </NavLink>
         </motion.li>
+        <motion.li
+            className="text-md border-l-4 border-transparent duration-300 text-textColor pl-2"
+          >
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                isActive ? "border-l-4 border-l-secondaryColor pl-2" : undefined
+              }
+            >
+              About
+            </NavLink>
+          </motion.li>
       </ul>
     </div>
   );

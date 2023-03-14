@@ -30,7 +30,7 @@ const IndividualWeatherCard = ({
       className="flex flex-col w-full bg-secondaryColor font-spacegrotesk px-6 py-4 rounded-lg text-textColor shadow-lg"
       variants={cardVariants}
       initial="hidden"
-      animate="visible"
+      whileInView="visible"
       whileHover={{ scale: 1.05 }}
     >
       <h4 className="text-2xl font-semibold">{city}</h4>

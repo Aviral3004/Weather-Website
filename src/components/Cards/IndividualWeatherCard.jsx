@@ -11,9 +11,9 @@ const cardVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    rotateY: 720,
+    rotateY: 360,
     transition: {
-      duration: 1,
+      duration: 0.5,
     },
   },
 };

@@ -75,7 +75,7 @@ const Framework = () => {
           scale: 1.1,
         }}
       >
-        <SiJavascript className="text-xl sm:text-3xl text-[#3178C6]" />
+        <SiJavascript className="text-xl sm:text-3xl text-[#F7D800]" />
         <h3 className="text-lg sm:text-2xl text-black-800">JavaScript</h3>
       </motion.div>
       <motion.div

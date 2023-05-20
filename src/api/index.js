@@ -119,7 +119,8 @@ export const getCurrentForecast = async (cityQuery) => {
       humidity: data["RelativeHumidity"],
       pressure: data["Pressure"]["Metric"]["Value"],
     };
-  } catch (error) {
+  } 
+  catch (error) {
     throw new Error(error.message);
   }
 };

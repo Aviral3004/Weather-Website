@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import moment from "moment";
 import { v4 } from "uuid";
+import { toast } from "react-toastify";
 
 import { get5DayForecast } from "../../api";
 
 import FiveDayCard from "../Cards/FiveDayCard";
 import Button from "../Buttons/Button";
 import Input from "../Inputs/Input";
-import ErrorText from "../Texts/ErrorText";
 import HeadingText from "../Texts/HeadingText";
 import HeadlineText from "../Texts/HeadlineText";
 
@@ -17,23 +17,24 @@ const FiveDayForeCast = () => {
     headline: "",
     forecasts: [],
   });
-  const [error, setError] = useState("");
   const [city, setCity] = useState("");
   const [animationKey, setAnimationKey] = useState("");
 
   const clickHandler = async () => {
-    setError(null);
     setFiveDayForecast({
       headline: "",
       forecasts: [],
     });
     try {
-      const { forecasts, headline } = await get5DayForecast(city);
+      const { forecasts, headline } = await toast.promise(get5DayForecast(city), {
+          pending: "Sending request...",
+          success: `Here is the 5 day forecast for ${city}`,
+          error: "Couldn't send request. Something went wrong...",
+      });
 
       setFiveDayForecast({ forecasts, headline });
       setAnimationKey(v4());
     } catch (error) {
-      setError(error.message);
     }
   };
 
@@ -66,7 +67,6 @@ const FiveDayForeCast = () => {
             />
           </AnimatePresence>
         ))}
-      {error && <ErrorText />}
     </div>
   );
 };

@@ -2,8 +2,8 @@ import React, { useState, Fragment } from "react";
 
 import { get1DayForecast } from "../../api";
 import { AnimatePresence } from "framer-motion";
+import { toast } from "react-toastify";
 
-import ErrorText from "../Texts/ErrorText";
 import Button from "../Buttons/Button";
 import Input from "../Inputs/Input";
 import HeadingText from "../Texts/HeadingText";
@@ -20,11 +20,9 @@ const OneDayForeCast = () => {
     hoursOfSun: undefined,
   });
   const [city, setCity] = useState("");
-  const [error, setError] = useState(null);
   const [key, setKey] = useState(0);
 
   const clickHandler = async () => {
-    setError(null);
 
     try {
       const {
@@ -36,7 +34,11 @@ const OneDayForeCast = () => {
         precipitationProbability,
         uvIndex,
         hoursOfSun,
-      } = await get1DayForecast(city);
+      } = await toast.promise(get1DayForecast(city), {
+      pending: "Sending request...",
+      success: `Here is the 1 day forecast for ${city}`,
+      error: "Couldn't send request. Something went wrong...",
+    });
 
       setOneDayForecast({
         aboutWeather,
@@ -50,7 +52,6 @@ const OneDayForeCast = () => {
       });
       setKey(key + 1);
     } catch (error) {
-      setError(error.message);
     }
   };
 
@@ -87,7 +88,6 @@ const OneDayForeCast = () => {
           </AnimatePresence>
         </Fragment>
       )}
-      {error && <ErrorText />}
     </div>
   );
 };

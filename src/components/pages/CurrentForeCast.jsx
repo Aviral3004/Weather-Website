@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import { toast } from "react-toastify";
 
 import { getCurrentForecast } from "../../api";
 import HeadingText from "../Texts/HeadingText";
 import Input from "../Inputs/Input";
-import ErrorText from "../Texts/ErrorText";
 import Button from "../Buttons/Button";
 import CurrentCard from "../Cards/CurrentCard";
 
@@ -22,10 +22,8 @@ const CurrentForeCast = () => {
     humidity: undefined,
     pressure: undefined,
   });
-  const [error, setError] = useState(null);
 
   const clickHandler = async () => {
-    setError(null);
 
     try {
       const {
@@ -38,7 +36,11 @@ const CurrentForeCast = () => {
         weatherText,
         wind,
         pressure,
-      } = await getCurrentForecast(city);
+      } = await toast.promise(getCurrentForecast(city), {
+        pending: "Sending request...",
+        success: `Here is the current forecast for ${city}`,
+        error: "Couldn't send request. Something went wrong...",
+      });
 
       setCurrentForecast({
         currentlyRaining,
@@ -53,7 +55,6 @@ const CurrentForeCast = () => {
       });
       setKey(key + 1);
     } catch (error) {
-      setError(error.message);
     }
   };
 
@@ -77,7 +78,6 @@ const CurrentForeCast = () => {
           />
         </AnimatePresence>
       )}
-      {error && <ErrorText />}
     </div>
   );
 };
